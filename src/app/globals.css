@@ -22,5 +22,64 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.indent {
+  @apply max-w-7xl w-full mx-auto px-3 md:px-5;
+}
+
+.button {
+  @apply block text-center font-bold rounded-lg shadow-md transition-all ease-in-out active:scale-[.95] cursor-pointer;
+}
+
+.modal-overlay {
+  @apply absolute top-0 left-0 overflow-hidden min-h-dvh min-w-dvw bg-black/15 flex items-center justify-center;
+}
+
+.modal-root {
+  @apply relative bg-white shadow-xl rounded-2xl p-7 max-w-4xl w-full z-50;
+}
+
+.modal-title {
+  @apply text-3xl font-black text-center text-gray-950 uppercase;
+}
+
+.modal-actions {
+  @apply flex items-center gap-2.5 w-full max-w-full justify-end flex-wrap md:flex-nowrap;
+}
+
+.modal-input {
+  @apply flex flex-col gap-1.5 items-start text-lg font-bold text-gray-800 w-full max-w-full;
+}
+
+.modal-input input {
+  @apply block py-1.5 px-3 border-1 border-gray-600 rounded-lg text-sm text-gray-600 bg-white w-full max-w-full;
+}
+
+.table-root {
+  @apply w-full max-w-full;
+}
+
+.table-title {
+  @apply bg-gray-700 text-white font-bold text-lg p-2 text-left;
+}
+
+.table-actions {
+  @apply block w-full max-w-full mb-5;
+}
+
+.table-actions th {
+  @apply flex items-center justify-start gap-2.5 w-full max-w-full;
+}
+
+.table-row {
+  @apply p-2 text-left text-black text-base bg-gray-300;
+}
+
+.table-row td {
+  @apply p-2;
+}
+
+.table-row:nth-child(even) {
+  @apply bg-gray-400;
 }
