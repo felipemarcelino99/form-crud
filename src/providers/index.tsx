@@ -9,7 +9,7 @@ export interface IProvidersProps {
 
 export const Providers = ({ children }: IProvidersProps) => {
   return (
-    <ComputerProvider>
+    <ComputerProvider computers={null}>
       <FormProvider>{children}</FormProvider>
     </ComputerProvider>
   );

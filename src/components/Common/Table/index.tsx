@@ -1,4 +1,4 @@
-import { Button } from "../Common/Button";
+import { Button } from "../Button";
 import { Actions } from "./_components/Actions";
 import { Body } from "./_components/Body";
 import { Header } from "./_components/Header";

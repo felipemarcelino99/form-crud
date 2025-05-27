@@ -2,15 +2,14 @@
 import { FormModal } from "@/components/Common/FormModal";
 import { useComputer } from "@/contexts/ComputerContext";
 import { useForm } from "@/contexts/FormContext";
-import { Actions } from "@/enums";
 
 export default function Modal() {
-  const { isModalOpen, closeModal } = useComputer();
+  const { isModalOpen, closeModal, action } = useComputer();
   const { submit, loading } = useForm();
 
   return (
     <FormModal.Root isOpen={isModalOpen} onClose={closeModal}>
-      <FormModal.Title label="Computador" action={Actions.CREATE} />
+      <FormModal.Title label="Computador" action={action} />
       <FormModal.Form>
         <FormModal.Input
           label="Nome"
@@ -38,16 +37,12 @@ export default function Modal() {
         />
       </FormModal.Form>
       <FormModal.Actions>
-        <FormModal.Action
-          label={loading ? "Salvando..." : "Salvar"}
-          onClick={submit}
-          disabled={loading}
-        />
-        <FormModal.Action
-          label="Cancelar"
-          variant="cancel"
-          onClick={closeModal}
-        />
+        <FormModal.Action onClick={submit} disabled={loading}>
+          {loading ? "Salvando..." : "Salvar"}
+        </FormModal.Action>
+        <FormModal.Action variant="cancel" onClick={closeModal}>
+          Cancelar
+        </FormModal.Action>
       </FormModal.Actions>
     </FormModal.Root>
   );

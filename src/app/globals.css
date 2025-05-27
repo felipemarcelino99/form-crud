@@ -33,11 +33,11 @@ body {
 }
 
 .modal-overlay {
-  @apply absolute top-0 left-0 overflow-hidden min-h-dvh min-w-dvw bg-black/15 flex items-center justify-center;
+  @apply absolute top-0 left-0 overflow-hidden min-h-dvh min-w-dvw bg-black/60 flex items-center justify-center;
 }
 
 .modal-root {
-  @apply relative bg-white shadow-xl rounded-2xl p-7 max-w-4xl w-full z-50;
+  @apply relative bg-stone-50 shadow-xl rounded-2xl p-7 max-w-4xl w-full z-50;
 }
 
 .modal-title {
@@ -53,7 +53,7 @@ body {
 }
 
 .modal-input input {
-  @apply block py-1.5 px-3 border-1 border-gray-600 rounded-lg text-sm text-gray-600 bg-white w-full max-w-full;
+  @apply block py-1.5 px-3 border-1 border-gray-950 rounded-lg text-sm text-gray-950 bg-stone-50 w-full max-w-full;
 }
 
 .table-root {
@@ -61,7 +61,7 @@ body {
 }
 
 .table-title {
-  @apply bg-gray-700 text-white font-bold text-lg p-2 text-left;
+  @apply bg-gray-800 text-white font-bold text-lg p-2 text-left;
 }
 
 .table-actions {
@@ -73,7 +73,11 @@ body {
 }
 
 .table-row {
-  @apply p-2 text-left text-black text-base bg-gray-300;
+  @apply p-2 text-left text-black font-medium text-base bg-gray-500 cursor-pointer;
+}
+
+.table-row.selected {
+  @apply text-stone-300;
 }
 
 .table-row td {
@@ -81,5 +85,9 @@ body {
 }
 
 .table-row:nth-child(even) {
-  @apply bg-gray-400;
+  @apply bg-gray-600;
+}
+
+.error-message {
+  @apply text-red-500 font-bold text-sm mb-2.5 text-left;
 }

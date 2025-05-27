@@ -1,12 +1,17 @@
+"use client";
 import React, {
   createContext,
   useContext,
   useMemo,
   useState,
   ReactNode,
+  useEffect,
 } from "react";
 import { computerSchema } from "@/lib/schemas/computer-schema";
-import { useComputer } from "@/contexts/ComputerContext";
+import { createComputers, updateComputers } from "@/services";
+import { useComputer } from "./ComputerContext";
+import { format } from "date-fns";
+import { revalidateComputersTag } from "@/app/actions/revalidate-computers";
 
 interface IFormContext {
   loading: boolean;
@@ -23,11 +28,23 @@ interface IFormProvider {
 const FormContext = createContext<IFormContext | undefined>(undefined);
 
 const FormProvider: React.FC<IFormProvider> = ({ children }) => {
-  const { fetchData, closeModal } = useComputer();
-
+  const { computer, setComputer } = useComputer();
   const [values, setValues] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (computer) {
+      setValues({
+        name: computer.name ?? "",
+        property: computer.property ?? "",
+        identifier: computer.identifier?.toString() ?? "",
+        purchaseData: format(new Date(computer.purchaseData), "yyyy-MM-dd"),
+      });
+    } else {
+      setValues({});
+    }
+  }, [computer]);
 
   const setValue = (name: string, value: string) => {
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -44,24 +61,20 @@ const FormProvider: React.FC<IFormProvider> = ({ children }) => {
       return;
     }
 
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/computers`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(result.data),
+    if (computer) {
+      await updateComputers({
+        ...result.data,
+        id: computer.id,
       });
-
-      if (!res.ok) throw new Error("Erro ao cadastrar");
-
-      await fetchData();
-
-      closeModal();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setValues({});
-      setLoading(false);
+      setComputer(null);
+    } else {
+      await createComputers(result.data);
     }
+
+    await revalidateComputersTag();
+    setValues({});
+    setErrors({});
+    setLoading(false);
   };
 
   const contextValues = useMemo(

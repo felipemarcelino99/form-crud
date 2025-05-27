@@ -1,9 +1,9 @@
 export interface Computer {
-  id?: string;
+  id?: number;
   name: string;
   property: string;
   identifier: number;
-  purchaseData: Date;
+  purchaseData: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

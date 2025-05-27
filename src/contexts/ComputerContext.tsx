@@ -1,79 +1,110 @@
+"use client";
+import { revalidateComputersTag } from "@/app/actions/revalidate-computers";
+import { Actions } from "@/enums";
+import { deleteComputers } from "@/services";
 import { Computer } from "@/types";
 import React, {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
 
 interface IComputerContext {
   computer: Computer | null;
-  id: number | null;
   isModalOpen: boolean;
-  loading: boolean;
-  data: Computer[] | null;
-  setId: (id: number) => void;
-  setComputer: (data: Computer) => void;
+  error: string;
+  id: number | null;
+  action: Actions;
+  setComputerId: (id: number) => void;
+  setComputer: (data: Computer | null) => void;
   closeModal: () => void;
   openModal: () => void;
-  fetchData: () => Promise<void>;
+  deleteComputer: () => void;
+  setComputerData: (data: Computer) => void;
 }
 
 interface IComputerProvider {
   children: React.ReactNode;
+  computers: Promise<Computer[]> | null;
 }
 
 const ComputerContext = createContext<IComputerContext>({} as IComputerContext);
 
-const ComputerProvider: React.FC<IComputerProvider> = ({ children }) => {
+const ComputerProvider: React.FC<IComputerProvider> = ({
+  children,
+  computers,
+}) => {
   const [computer, setComputer] = useState<Computer | null>(null);
   const [id, setId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
-
-  const fetchData = async () => {
-    setLoading(true);
-
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/computers`);
-      const json = await res.json();
-      setData(json);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [error, setError] = useState("");
+  const [action, setAction] = useState<Actions>(Actions.CREATE);
 
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
+    setAction(Actions.CREATE);
   }, []);
 
   const openModal = useCallback(() => {
     setIsModalOpen(true);
   }, []);
 
-  useEffect(() => {
-    fetchData();
+  const deleteComputer = useCallback(async () => {
+    if (!id) {
+      setError("Selecione um item para remover.");
+      return;
+    }
+
+    deleteComputers(id);
+    setId(null);
+    await revalidateComputersTag();
+  }, [id]);
+
+  const setComputerId = useCallback((id: number) => {
+    console.log("id: ", id);
+    if (id) {
+      setId(id);
+    }
+  }, []);
+
+  const setComputerData = useCallback((data: Computer) => {
+    if (data) {
+      setComputer(data);
+      setAction(Actions.UPDATE);
+      setIsModalOpen(true);
+    }
   }, []);
 
   const contextValues = useMemo(
     () => ({
+      computers,
       computer,
       isModalOpen,
-      data,
       id,
-      loading,
-      setId,
+      error,
+      action,
+      setComputerId,
       openModal,
       closeModal,
       setComputer,
-      fetchData,
+      deleteComputer,
+      setComputerData,
     }),
-    [isModalOpen, computer, id, setId, openModal, closeModal, setComputer]
+    [
+      isModalOpen,
+      computer,
+      id,
+      error,
+      action,
+      setComputerId,
+      openModal,
+      closeModal,
+      setComputer,
+      deleteComputer,
+      setComputerData,
+    ]
   );
 
   return (
