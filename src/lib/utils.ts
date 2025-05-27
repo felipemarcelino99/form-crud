@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(...inputs));
 }
 
-export function setWithExpiry(key: string, value: any, ttl: number) {
+export function setWithExpiry(key: string, value: unknown, ttl: number) {
   const now = new Date();
   const item = {
     value,

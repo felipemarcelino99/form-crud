@@ -101,6 +101,7 @@ const ComputerProvider: React.FC<IComputerProvider> = ({
       id,
       error,
       action,
+      computers,
       setComputerId,
       openModal,
       closeModal,

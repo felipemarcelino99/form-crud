@@ -6,6 +6,7 @@ import React, {
   useState,
   ReactNode,
   useEffect,
+  useCallback,
 } from "react";
 import { computerSchema } from "@/lib/schemas/computer-schema";
 import { createComputers, updateComputers } from "@/services";
@@ -50,7 +51,7 @@ const FormProvider: React.FC<IFormProvider> = ({ children }) => {
     setValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  const submit = async () => {
+  const submit = useCallback(async () => {
     setLoading(true);
 
     const result = computerSchema.safeParse(values);
@@ -75,7 +76,7 @@ const FormProvider: React.FC<IFormProvider> = ({ children }) => {
     setValues({});
     setErrors({});
     setLoading(false);
-  };
+  }, [setValues, setComputer, setErrors, setLoading, computer, values]);
 
   const contextValues = useMemo(
     () => ({
@@ -85,7 +86,7 @@ const FormProvider: React.FC<IFormProvider> = ({ children }) => {
       setValue,
       submit,
     }),
-    [values, errors, loading]
+    [values, errors, loading, submit]
   );
 
   return (
