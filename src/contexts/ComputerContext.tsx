@@ -54,6 +54,9 @@ const ComputerProvider: React.FC<IComputerProvider> = ({
   const deleteComputer = useCallback(async () => {
     if (!id) {
       setError("Selecione um item para remover.");
+      setTimeout(() => {
+        setError("");
+      }, 3000);
       return;
     }
 

@@ -21,7 +21,6 @@ export default function List({ computers }: ListProps) {
 
   return (
     <>
-      {error && <p className="error-message">{error}</p>}
       <Table.Root>
         <Table.Header>
           <Table.Actions>
@@ -32,6 +31,7 @@ export default function List({ computers }: ListProps) {
               Remover
             </Table.Action>
           </Table.Actions>
+          {error && <p className="error-message">{error}</p>}
           <Table.Row className="table-header">
             <Table.Title label="Nome" />
             <Table.Title label="Bem Patrimonial" />
