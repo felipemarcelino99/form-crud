@@ -33,7 +33,7 @@ body {
 }
 
 .modal-overlay {
-  @apply absolute top-0 left-0 overflow-hidden min-h-dvh min-w-dvw bg-black/60 flex items-center justify-center;
+  @apply absolute top-0 left-0 overflow-hidden min-h-dvh min-w-screen bg-black/60 flex items-center justify-center px-3.5;
 }
 
 .modal-root {
@@ -61,7 +61,7 @@ body {
 }
 
 .table-title {
-  @apply bg-gray-800 text-white font-bold text-lg p-2 text-left;
+  @apply bg-gray-800 text-white font-bold p-2 text-left text-sm md:text-lg;
 }
 
 .table-actions {
@@ -73,7 +73,7 @@ body {
 }
 
 .table-row {
-  @apply p-2 text-left text-black font-medium text-base bg-gray-500 cursor-pointer;
+  @apply p-2 text-left text-black font-medium bg-gray-500 cursor-pointer text-xs md:text-base;
 }
 
 .table-row.selected {

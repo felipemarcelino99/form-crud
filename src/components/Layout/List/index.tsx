@@ -12,6 +12,7 @@ export default function List({ computers }: ListProps) {
   const {
     error,
     id,
+    loading,
     openModal,
     setComputerId,
     setComputerData,
@@ -20,23 +21,23 @@ export default function List({ computers }: ListProps) {
   const data = use(computers);
 
   return (
-    <>
-      <Table.Root>
+    <div className="overflow-x-auto">
+      <Table.Root className="min-w-[39.063rem] ">
         <Table.Header>
           <Table.Actions>
             <Table.Action onClick={openModal} size="md">
               Adicionar
             </Table.Action>
             <Table.Action variant="cancel" onClick={deleteComputer} size="md">
-              Remover
+              {loading ? "Removendo..." : "Remover"}
             </Table.Action>
           </Table.Actions>
           {error && <p className="error-message">{error}</p>}
           <Table.Row className="table-header">
-            <Table.Title label="Nome" />
-            <Table.Title label="Bem Patrimonial" />
-            <Table.Title label="Identificação" />
-            <Table.Title label="Data Compra" />
+            <Table.Title label="Nome" className="w-1/4" />
+            <Table.Title label="Bem Patrimonial" className="w-1/4" />
+            <Table.Title label="Identificação" className="w-1/4" />
+            <Table.Title label="Data Compra" className="w-1/4" />
           </Table.Row>
         </Table.Header>
 
@@ -48,14 +49,16 @@ export default function List({ computers }: ListProps) {
               onClick={() => setComputerId(computer.id!)}
               onDoubleClick={() => setComputerData(computer)}
             >
-              <td>{computer.name}</td>
-              <td>{computer.property}</td>
-              <td>{computer.identifier}</td>
-              <td>{format(new Date(computer.purchaseData), "dd/MM/yyyy")}</td>
+              <td className="w-1/4">{computer.name}</td>
+              <td className="w-1/4">{computer.property}</td>
+              <td className="w-1/4">{computer.identifier}</td>
+              <td className="w-1/4">
+                {format(new Date(computer.purchaseData), "dd/MM/yyyy")}
+              </td>
             </Table.Row>
           ))}
         </Table.Body>
       </Table.Root>
-    </>
+    </div>
   );
 }

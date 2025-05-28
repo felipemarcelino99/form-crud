@@ -11,8 +11,8 @@ export default function Home() {
   return (
     <main className="font-[family-name:var(--font-roboto)]">
       <div className="w-dvw h-dvh flex items-center justify-center bg-gray-950">
+        <Modal />
         <Indent>
-          <Modal />
           <Suspense fallback={<Loading />}>
             <List computers={computersPromise} />
           </Suspense>

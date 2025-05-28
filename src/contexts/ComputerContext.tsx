@@ -14,6 +14,7 @@ import React, {
 interface IComputerContext {
   computer: Computer | null;
   isModalOpen: boolean;
+  loading: boolean;
   error: string;
   id: number | null;
   action: Actions;
@@ -41,6 +42,7 @@ const ComputerProvider: React.FC<IComputerProvider> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("");
   const [action, setAction] = useState<Actions>(Actions.CREATE);
+  const [loading, setLoading] = useState(false);
 
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
@@ -60,9 +62,11 @@ const ComputerProvider: React.FC<IComputerProvider> = ({
       return;
     }
 
+    setLoading(true);
     await deleteComputers(id);
     await revalidateComputersTag();
     setId(null);
+    setLoading(false);
   }, [id]);
 
   const setComputerId = useCallback((id: number) => {
@@ -81,6 +85,7 @@ const ComputerProvider: React.FC<IComputerProvider> = ({
 
   const contextValues = useMemo(
     () => ({
+      loading,
       computers,
       computer,
       isModalOpen,
@@ -95,6 +100,7 @@ const ComputerProvider: React.FC<IComputerProvider> = ({
       setComputerData,
     }),
     [
+      loading,
       isModalOpen,
       computer,
       id,
