@@ -29,7 +29,7 @@ interface IFormProvider {
 const FormContext = createContext<IFormContext | undefined>(undefined);
 
 const FormProvider: React.FC<IFormProvider> = ({ children }) => {
-  const { computer, setComputer } = useComputer();
+  const { computer, setComputer, closeModal } = useComputer();
   const [values, setValues] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
@@ -76,7 +76,16 @@ const FormProvider: React.FC<IFormProvider> = ({ children }) => {
     setValues({});
     setErrors({});
     setLoading(false);
-  }, [setValues, setComputer, setErrors, setLoading, computer, values]);
+    closeModal();
+  }, [
+    setValues,
+    setComputer,
+    setErrors,
+    setLoading,
+    closeModal,
+    computer,
+    values,
+  ]);
 
   const contextValues = useMemo(
     () => ({

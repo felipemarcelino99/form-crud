@@ -60,13 +60,12 @@ const ComputerProvider: React.FC<IComputerProvider> = ({
       return;
     }
 
-    deleteComputers(id);
-    setId(null);
+    await deleteComputers(id);
     await revalidateComputersTag();
+    setId(null);
   }, [id]);
 
   const setComputerId = useCallback((id: number) => {
-    console.log("id: ", id);
     if (id) {
       setId(id);
     }
